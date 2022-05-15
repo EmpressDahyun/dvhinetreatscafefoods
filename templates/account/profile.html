@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+
+    {% block content %}
+
+      <div class="container py-5">
+        {% include 'partials/_messages.html' %}
+
+        <div class="jumbotron">
+          <h1>{{request.user.first_name}} {{request.user.last_name}}</h1>
+          <p><strong>Email:</strong> {{request.user.email}}</p>
+          <p><strong>Username:</strong> {{request.user.username}}</p>
+          
+          <p><a class="btn btn-primary btn-large" href="{% url 'store:add-address' %}">Add Address »</a> <a class="btn btn-outline-primary btn-large" href="{% url 'socialaccount_connections' %}">Account Settings</a></p>
+        </div>
+
+
+        <div class="row">
+
+          <div class="col-lg-6">
+            <div class="card mb-4" id="headings">
+              <div class="card-header">Addresses <span class="float-right"><a href="{% url 'store:add-address' %}">Add Address</a></span></div>
+              <div class="card-body">
+                {% if delivery_information %}
+                    {% for address in delivery_information %}
+                        <h4 class="mb-3">Address {{forloop.counter}}</h4> 
+                        
+                        <span class="float-right"><a href="{% url 'store:remove-address' address.id %}"><i class="fas fa-trash-alt small text-muted"></i></a></span>
+
+                        <p>
+                            <strong>Recipient's Name: </strong>{{address.recipient_name}} <br>
+                            <strong>Phone Number: </strong>{{address.phone_number}} <br>
+                            <strong>Telephone Number: </strong>{{address.telephone_number}} <br>
+                            <strong>Barangay: </strong>{{address.barangay}} <br>
+                            <strong>Landmark: </strong>{{address.landmark}} <br>
+                            <strong>Street Name: </strong>{{address.street_name}} <br>
+                            <strong>City: </strong>{{address.city}} <br>
+                        </p>
+
+                        <hr>
+                    {% endfor %}
+                {% else %}
+                <div class="text-danger">
+                  Address not Added.
+                </div>
+                {% endif %}
+                
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card mb-4" id="tables">
+              <div class="card-header">Orders</div>
+              <div class="card-body">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Order #</th>
+                      <th>Invoice #</th>
+                      <th>Status</th>
+                      <th>Total Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for order in orders %}
+                        <tr>
+                          <td>{{forloop.counter}}</td>
+                          <td>{{order.id}}</td>
+                          <td>
+                            {{order.status}}
+                          </td>
+                          <td>₱ {{order.total_price}}</td>
+                        </tr>
+                      {% endfor %}
+                  </tbody>
+                </table>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-6">
+            <div class="card mb-4" id="headings">
+              <div class="card-header">Reservations <span class="float-right"></span></div>
+              <div class="card-body">
+                {% if reservations %}
+                {% for reservation in reservations %}
+                    <h4 class="mb-3">Reservation {{forloop.counter}}</h4> 
+                    
+                    <span class="float-right"><a href="{% url 'store:remove-reservation' reservation.id %}"><i class="fas fa-trash-alt small text-muted"></i></a></span>
+
+                    <p>
+                        <strong>Event Name: </strong>{{reservation.event_name}} <br>
+                        <strong>Event Type: </strong>{{reservation.event_type}} <br>
+                        <strong>Event Date: </strong>{{reservation.event_date}} <br>
+                        <strong>Event Time: </strong>{{reservation.event_time}} <br>
+                        <strong>Event Time End: </strong>{{reservation.event_time_end}} <br>                        
+                        <strong>Event Status: </strong>{{reservation.status}} <br>
+                    </p>
+
+                    <hr>
+                {% endfor %}
+            {% else %}
+            <div class="text-danger">
+              Reservations not Added.
+            </div>
+            {% endif %}
+                
+              </div>
+            </div>
+          </div>
+    
+        </div>
+        
+      </div>
+{% endblock content %}

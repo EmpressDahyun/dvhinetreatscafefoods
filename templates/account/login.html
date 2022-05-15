@@ -1,0 +1,52 @@
+{% extends "account/base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+<div class = "container py-5">
+{% comment "" %}<h1>{% trans "Sign In" %}</h1>{% endcomment %}
+
+{% get_providers as socialaccount_providers %}
+
+<div class="col-md-6 offset-md-3">
+<div class="card mb-4" id="forms">
+  <div class="card-header">
+    <small>
+    With a this account, you can save time during checkout, access your cart from any device and view your transactions history.
+    </small>
+  </div>
+  <div class="card-body">
+<form class="login" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
+  {{ form|crispy }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+  <button class="primaryAction" type="submit">{% trans "Sign In" %}</button>
+  <hr>
+  {% if socialaccount_providers %}
+
+
+<div class="socialaccount_ballot">
+<div class = "text-center">
+
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+    
+</div>
+</div>
+{% include "socialaccount/snippets/login_extra.html" %}
+
+{% else %}
+<p>{% blocktrans %}If you have not created an account yet, then please
+<a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+{% endif %}
+</form>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

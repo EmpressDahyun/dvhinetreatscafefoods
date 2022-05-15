@@ -1,0 +1,47 @@
+{% extends 'base.html' %}}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+  {% include 'partials/_messages.html' %}
+    <h2 class="h4 text-center text-uppercase mb-4">{{request.user.first_name}}'s Favorites</h2>
+    <div class="row">
+        {% for g in favorite_products %}
+        <div class="col-xl-3 col-lg-4 col-sm-6">
+            <div class="product text-center">
+              <div class="position-relative mb-3">
+
+                <div class="badge text-white badge-"></div>
+                
+                <a class="d-block" href="{% url 'store:product-detail' g.product.slug %}">
+                  {% if g.product.product_image %}
+                    <img class="img-fluid w-100" src="{{ g.product.product_image.url }}" alt="{{product.title}}">
+                  {% else %}
+                    <img class="img-fluid w-100" src="{% static 'img/product-1.jpg' %}" alt="{{product.title}}">
+                  {% endif %}
+                </a>
+
+                <div class="product-overlay">
+                  <ul class="mb-0 list-inline">
+                   
+                    <li class="list-inline-item m-0 p-0">
+                      {% comment %} <a class="btn btn-sm btn-dark" href="{% url 'store:add-to-cart' %}">Add to cart</a> {% endcomment %}
+                      <a class="btn btn-sm btn-outline-dark" href="{% url 'store:remove-favorites' g.id %}"><i class="far fa-heart"></i></a>
+                    </li>
+                  </ul>
+                  &nbsp;
+                  &nbsp;
+                  <form action="{% url 'store:add-to-cart' %}">
+                    <input type="hidden" name="prod_id" value="{{g.product.id}}" id="product_id">
+                    <button type="submit" class="btn btn-sm btn-dark">Add to Cart</button>
+                  </form>   
+                </div>
+              </div>
+              <h6> <a class="reset-anchor" href="detail.html">{{ g.product.title }}</a></h6>
+              <p class="small text-muted">₱{{g.product.price}}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+</div>
+{% endblock content %}

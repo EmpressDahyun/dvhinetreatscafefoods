@@ -1,0 +1,153 @@
+{% load humanize %}
+
+{% block content %}
+
+
+<p style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;" align="center">D'Vhine Treats Order Slip</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td colspan="2"><img src="logo.png" width="150"  /></td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="49%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;">Invoice Receipt</td>
+          </tr>
+          <tr>
+            {% for data in order_items  %}
+            {% if forloop.last %}
+            <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px;">Invoice Number: {{data.invoice_no}}</td>
+            {% endif %}
+            {% endfor %}
+           
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;">D'Vhine Treats Cafe & Restaurant </td>
+          </tr>
+
+            <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px;">Sitio Lumbang, Upper Cabatangan, Zamboanga City  </td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          </table></td>
+      </tr>
+    </table></td>
+    <td width="51%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="right"><img src="logo.png" alt="" width="150"  /></td>
+      </tr>
+      <tr>
+        <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px;" align="right"></td>
+      </tr>
+      <tr>
+        <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px;"  align="right">&nbsp;</td>
+      </tr>
+      <tr>
+        {% for data in order_lists  %}
+        {% if forloop.last %}
+        <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px;"  align="right">Order Date: {{data.order_date}}</td>
+        {% endif %}
+        {% endfor %}
+      </tr>
+      <tr>
+        {% for data in order_items  %}
+        {% if forloop.last %}
+        <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;" align="right">Customer Name: {{data.user.last_name}}, {{data.user.first_name}}</td>
+        {% endif %}
+        {% endfor %}
+      </tr>
+      <tr>
+        {% for data in address_lists  %}
+        {% if forloop.last %}
+        <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px;"  align="right">Mobile Number: {{data.phone_number}}</td>
+        {% endif %}
+        {% endfor %}
+      </tr>
+      <tr>
+        <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px;" align="right">{{data.name}}</td>
+      </tr>
+      <tr>
+        <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px;" align="right">{{data.address}}</td>
+      </tr>
+
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2"><table class="table table-hover">
+      <thead>
+        <tr>
+          <th style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px;" align="center">#</th>
+          <th style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px;" align="center">PRODUCT</th>
+          <th style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px;" align="center">QUANTITY</th>
+          <th style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px;" align="center">PRICE</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order_item in order_items%}
+        <tr>
+          <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px; " align="center">{{forloop.counter}}</td>
+          <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px; " align="center">{{order_item.product.title}}</td>
+          <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px; " align="center">{{order_item.quantity}}</td>
+          <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px; " align="center" >{{order_item.price}}</td>
+        {% endfor %}
+        </tr>
+      </tbody>
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr> 
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    {% for data in order_lists  %}
+    {% if forloop.last %}
+    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px;" colspan="2">Total Amount: {{data.total_price}}</td>
+    {% endif %}
+    {% endfor %}
+  </tr>
+  <tr>
+  <tr>
+    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px;" colspan="2">Please Note:</td>
+  </tr>
+  <tr>
+    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px;" colspan="2">Dear Customer, Your order is currently pending kindly sumbit your order slip file for verification <a href="http://127.0.0.1:8000/accounts/profile/">Submit your file here</a>, please make sure that your designated phone number is active and lastly, please prepare the excact amount to be paid.</td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px;" colspan="2">Thank you for ordering with us we hope you order back and visit us next time!</td>
+  </tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px;" colspan="2" align="center">(This is computer generated receipt and does not require physical signature.) </td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+</table>
+{% endblock content %}

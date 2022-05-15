@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container py-5">
+    <h2 class="h4 text-center text-uppercase mb-4">D'vhine treats cafe and restaurant gallery</h2>
+    <div class="row">
+        {% for g in gallery %}
+            <div class="col-sm-3">
+                <div class="card mb-3" style="max-height: fit-content; overflow: auto; border: 2px light black; padding:5px;">
+                    <div class="owl-carousel product-slider" data-slider-id="1">
+                    <a class="d-block" href="{{g.image.url}}" data-lightbox="product" title="{{g.description}}"><img class="img-fluid" src="{{g.image.url}}" style="height: 200px;" alt="{{g.description}}"></a>
+                    </div>
+                </div>
+            </div>            
+        {% endfor %}
+      </div>
+</div>
+{% endblock content %}
